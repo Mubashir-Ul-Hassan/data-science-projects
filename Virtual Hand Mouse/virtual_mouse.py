@@ -39,7 +39,20 @@ while True:
         print(fingers)
 
         # 4 Only index finger: Moving Mode
+        if fingers[1] == 1 and fingers[2] == 0:
+            # Convert Coordinates
+            x3 = np.interp(x1, (frameR, wCam - frameR), (0, screenWidth))
+            y3 = np.interp(y1, (frameR, hCam - frameR), (0, screenHeight))
 
+            # Smoothen Values
+            currLocX = prevLocX + (x3 - prevLocX) / smoothening
+            currLocY = prevLocY + (y3 - prevLocY) / smoothening
+
+            # Move Mouse
+            pyautogui.moveTo(screenWidth - currLocX, currLocY)
+            prevLocX, prevLocY = currLocX, currLocY
+
+        
         # 5 Both index and middle fingers are up: Clicking Mode
         if fingers[1] == 1 and fingers[2] == 1:
             # Find distance between fingers
