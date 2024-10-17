@@ -50,3 +50,15 @@ class SpeechRecognitionApp(App):
         button = Button(text='Recognize Speech')
         button.bind(on_press=self.recognize_speech)
         layout.add_widget(button)
+
+
+# Add label to display recognized speech
+        self.result_label = Label(text='Speech recognition result will appear here', halign='left', valign='top',
+                                  size_hint_y=None, height=100)  # Adjust height for multiple lines
+        self.result_label.bind(size=self.result_label.setter('text_size'))  # Enable text wrapping
+        layout.add_widget(self.result_label)
+
+        return layout
+
+if _name_ == '_main_':
+    SpeechRecognitionApp().run()
