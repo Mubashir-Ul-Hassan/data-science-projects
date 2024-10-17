@@ -29,3 +29,23 @@ def download_audio(video_url, download_path):
 @app.route('/')
 def index():
     return render_template('index.html')
+
+
+@app.route('/download', methods=['POST'])
+def download():
+    data = request.json
+    video_url = data['url']
+    download_path = data['path']
+    download_type = data['type']
+
+    if download_type == 'video':
+        thread = Thread(target=download_video, args=(video_url, download_path))
+    elif download_type == 'audio':
+        thread = Thread(target=download_audio, args=(video_url, download_path))
+    
+    thread.start()
+    
+    return jsonify({"status": "Download started."})
+
+if _name_ == '_main_':
+    app.run(debug=True)
